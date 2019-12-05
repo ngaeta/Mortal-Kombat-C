@@ -20,9 +20,14 @@ int main(int argc, char** args)
 
     hero_t hero;
     hero_init(renderer, &hero, &sprite_rect);
-    //sprite_t sprite;
-    //sprite_init(&sprite, &sprite_rect);
-    //sprite_set_texture(renderer, &sprite, "Assets/Heroes/test.png", NULL);
+
+    // sprite_t sprite;
+    // sprite_init(&sprite, &sprite_rect);
+    // SDL_Rect texture_rect;
+    // texture_rect.w=68;
+    // texture_rect.h=130;
+    // texture_rect.x = texture_rect.y = 0;
+    // sprite_set_texture(renderer, &sprite, "Assets/Heroes/test.png", &texture_rect);
 
     for(;;)
     {
@@ -35,7 +40,7 @@ int main(int argc, char** args)
                 return 0;
             }
 
-            hero_input(&hero, &event);
+            hero_input(renderer, &hero, &event);
         }
 
         hero_tick(&hero);

@@ -1,9 +1,7 @@
-#define STB_IMAGE_IMPLEMENTATION
-
+#include "../header/utility.h"
 #include "../header/sprite.h"
-#include "stb_image.h"
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 /*
     @param sprite sprite to fill 
@@ -18,15 +16,7 @@ void sprite_init(sprite_t* sprite, SDL_Rect* sprite_rect)
 
 int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* file_name, SDL_Rect* texture_rect) 
 {
-    int width, height, channel;
-    unsigned char* image = stbi_load(file_name, &width, &height, &channel, 4);
-    SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, width, height);
-    Uint8 *pixels = NULL;
-    int pitch=0;   
-    if(SDL_LockTexture(texture, NULL, (void**) &pixels, &pitch))
-    {
-        return -1;
-    }
+    SDL_Texture* texture = load_texture(renderer, file_name);
     sprite->texture = texture;
     
     if(texture_rect) 
@@ -43,9 +33,6 @@ int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* fil
         sprite->texture_rect = &texture_rect;
     }
     
-    memcpy(pixels, image, pitch * height);
-    free(image);
-    SDL_UnlockTexture(texture);
     return 0;
 }
 
