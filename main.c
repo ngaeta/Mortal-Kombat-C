@@ -28,9 +28,12 @@ int main(int argc, char** args)
     // texture_rect.h=130;
     // texture_rect.x = texture_rect.y = 0;
     // sprite_set_texture(renderer, &sprite, "Assets/Heroes/test.png", &texture_rect);
+    Uint64 now = SDL_GetPerformanceCounter();
+    Uint64 last = 0;
+    double delta_time = 0;
 
     for(;;)
-    {
+    {                                                                         
         SDL_Event event;
         while(SDL_PollEvent(&event)) 
         {
@@ -43,7 +46,7 @@ int main(int argc, char** args)
             hero_input(renderer, &hero, &event);
         }
 
-        hero_tick(&hero);
+        hero_tick(&hero, delta_time);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);

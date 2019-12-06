@@ -17,6 +17,6 @@ void animation_tick(sprite_t* sprite, animation_t* animation)
 
 void animation_play(animation_t* animation, sprite_t* sprite) 
 {
-    animation->curr_frame = 0;
-    sprite->texture_rect.y = animation->texture_rect.y;
+    animation->curr_frame = 1;
+    sprite->texture_rect = animation->texture_rect;
 }
