@@ -13,7 +13,7 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     hero->sprite = sprite;
     
     vector2_t speed;
-    speed.x = 1;
+    speed.x = 100;
     speed.y = 0;
     hero->move_speed = speed;
 
@@ -53,6 +53,7 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
 {
     if(event->type == SDL_KEYDOWN && (hero->curr_anim.name == IDLE || hero->curr_anim.name == WALK))
     {
+        SDL_Log("E stato premuto un tasto");
         if(event->key.keysym.sym == SDLK_p) 
         {
             hero->character.speed.x = 0;
@@ -89,8 +90,8 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
     else 
     {
         hero->character.speed.x = 0;
-        SDL_Log("is playing %d", hero->curr_anim.is_playing);
-        if(hero->curr_anim.is_playing == 0)
+        SDL_Log("is playing %d", SDL_GetTicks());
+        if(hero->curr_anim.is_playing == 0 || hero->curr_anim.name == WALK)
         {
            hero->curr_anim = hero->animations[IDLE];
            animation_play(&hero->curr_anim, &hero->sprite);  
