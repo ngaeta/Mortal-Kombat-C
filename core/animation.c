@@ -1,4 +1,4 @@
-#include "../header/animation.h"
+#include "header/animation.h"
 
 void animation_init(animation_t* animation, int frames, int delayPerFrame, SDL_Rect texture_rect)
 {

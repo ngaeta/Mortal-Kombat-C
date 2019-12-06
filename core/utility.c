@@ -1,7 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "stb_image.h"
-#include "../header/utility.h"
+#include "header/utility.h"
 #include <string.h>
 
 SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file_name) 

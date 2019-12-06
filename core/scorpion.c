@@ -1,5 +1,5 @@
-#include "../header/hero.h"
-#include "../header/utility.h"
+#include "header/hero.h"
+#include "header/utility.h"
 
 void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
 {

@@ -1,5 +1,5 @@
-#include "../header/utility.h"
-#include "../header/sprite.h"
+#include "header/utility.h"
+#include "header/sprite.h"
 #include <string.h>
 #include <stdlib.h>
 

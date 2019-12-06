@@ -1,6 +1,6 @@
 #define SDL_MAIN_HANDLED  
 
-#include "header/hero.h"
+#include "core/header/hero.h"
 
 int main(int argc, char** args)
 {
