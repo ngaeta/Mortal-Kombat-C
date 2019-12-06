@@ -33,7 +33,13 @@ int main(int argc, char** args)
     double delta_time = 1;
 
     for(;;)
-    {                                                                         
+    {                    
+        last = now;
+        now = SDL_GetPerformanceCounter();
+
+        delta_time = ((double)((now - last)* 1000) / SDL_GetPerformanceFrequency()) * 0.001;
+        SDL_Log("%f", delta_time);
+		
         SDL_Event event;
         while(SDL_PollEvent(&event)) 
         {
