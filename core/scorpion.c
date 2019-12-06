@@ -90,7 +90,7 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
     else 
     {
         hero->character.speed.x = 0;
-        SDL_Log("is playing %d", SDL_GetTicks());
+        SDL_Log("Nessun tasto premuto al tempo %d", SDL_GetTicks());
         if(hero->curr_anim.is_playing == 0 || hero->curr_anim.name == WALK)
         {
            hero->curr_anim = hero->animations[IDLE];
