@@ -8,10 +8,11 @@ void animation_init(animation_t* animation, int frames, int delayPerFrame, SDL_R
     animation->loop=1;
     animation->is_playing=0;
     animation->texture_rect = texture_rect;
+    animation->name = -1;
 }
 
 void animation_tick(sprite_t* sprite, animation_t* animation) 
-{  
+{      
     uint32_t currentTime = SDL_GetTicks();
     if (currentTime > animation->timer + animation->delay_between_frames) 
     {

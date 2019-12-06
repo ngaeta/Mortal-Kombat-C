@@ -2,6 +2,7 @@
 
 typedef struct animation
 {
+    int name;
     int tot_frames;
     int curr_frame;
     int delay_between_frames;

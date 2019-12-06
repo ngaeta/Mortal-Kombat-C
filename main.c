@@ -30,7 +30,7 @@ int main(int argc, char** args)
     // sprite_set_texture(renderer, &sprite, "Assets/Heroes/test.png", &texture_rect);
     Uint64 now = SDL_GetPerformanceCounter();
     Uint64 last = 0;
-    double delta_time = 0;
+    double delta_time = 1;
 
     for(;;)
     {                                                                         
