@@ -19,7 +19,7 @@ int main(int argc, char** args)
     sprite_rect.h = 112;
 
     hero_t hero;
-    hero_init(renderer, &hero, &sprite_rect);
+    hero_init(renderer, &hero, sprite_rect);
 
     // sprite_t sprite;
     // sprite_init(&sprite, &sprite_rect);

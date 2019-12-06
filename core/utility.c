@@ -21,3 +21,14 @@ SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file_name)
     SDL_UnlockTexture(texture);
     return texture;
 }
+
+SDL_Rect create_rect(int x, int y, int w, int h) 
+{
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+
+    return rect;
+}
