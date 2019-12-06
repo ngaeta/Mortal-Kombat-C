@@ -19,12 +19,17 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
 
     animation_t idle_anim;
     animation_init(&idle_anim, 6, 100, texture_rect);
+
     animation_t walk_anim;
     animation_init(&walk_anim, 9, 100, create_rect(0, 112, 54, 112));
+
     animation_t punch_anim;
-    animation_init(&punch_anim, 3, 120, create_rect(0, 224, 63, 112));
+    animation_init(&punch_anim, 5, 120, create_rect(0, 224, 63, 112));
+    animation_set_loop(&punch_anim, 0);
+    
     animation_t kick_anim;
-    animation_init(&kick_anim, 4, 200, create_rect(0, 448, 80, 112));
+    animation_init(&kick_anim, 7, 150, create_rect(0, 448, 80, 112));
+    animation_set_loop(&kick_anim, 0);
 
     hero->animations[IDLE] = idle_anim;
     hero->animations[WALK] = walk_anim;
@@ -32,6 +37,7 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     hero->animations[KICK] = kick_anim;
 
     hero->curr_anim = idle_anim;
+    animation_play(&hero->curr_anim, &hero->sprite);
 }
 
 void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event) 
@@ -53,20 +59,18 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
             hero->curr_anim = hero->animations[WALK];
             animation_play(&hero->curr_anim, &hero->sprite);                                                                              
         }
-        if(event->key.keysym.sym == SDLK_p) 
-        {
-            hero->curr_anim = hero->animations[PUNCH];
-            animation_play(&hero->curr_anim, &hero->sprite);
-        }
-        else if(event->key.keysym.sym == SDLK_k)
-        {
-            hero->curr_anim = hero->animations[KICK];
-            animation_play(&hero->curr_anim, &hero->sprite);                                                                             
-        }
         else if(event->key.keysym.sym == SDLK_i)
         {
             hero->curr_anim = hero->animations[IDLE];
             animation_play(&hero->curr_anim, &hero->sprite);                                                                              
+        }
+        else if(event->key.keysym.sym == SDLK_LEFT)
+        {
+            sprite_flip(&hero->sprite, SDL_FLIP_HORIZONTAL);
+        }
+        else if(event->key.keysym.sym == SDLK_RIGHT) 
+        {
+            sprite_flip(&hero->sprite, SDL_FLIP_NONE);
         }
     }
 }

@@ -12,6 +12,7 @@ void sprite_init(sprite_t* sprite, SDL_Rect sprite_rect)
     sprite->x = sprite_rect.x;
     sprite->y = sprite_rect.y;
     sprite->sprite_rect = sprite_rect;    
+    sprite->flip = SDL_FLIP_NONE;
 }
 
 int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* file_name, SDL_Rect* texture_rect) 
@@ -19,7 +20,6 @@ int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* fil
     SDL_Texture* texture = load_texture(renderer, file_name);
     sprite->texture = texture;
     
-    //modify
     if(texture_rect) 
     {
         SDL_Log("Texture rect defined");
@@ -40,7 +40,16 @@ int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* fil
 void sprite_draw(SDL_Renderer* renderer, sprite_t* sprite) 
 {
     sprite->sprite_rect.x = sprite->x;
-    sprite->sprite_rect.y = sprite->y;
-    //SDL_Log("%d", sprite->x);                                                                            
-    SDL_RenderCopy(renderer, sprite->texture, &sprite->texture_rect, &sprite->sprite_rect);
+    sprite->sprite_rect.y = sprite->y;                                                                      
+    SDL_RenderCopyEx(renderer, sprite->texture, &sprite->texture_rect, &sprite->sprite_rect, 0, NULL, sprite->flip);
+}
+
+/*
+    @param sprite sprite to flip
+    @param flip_mode use (SDL_FLIP_NONE, SDL_FLIP_HORIZONTAL, SDL_FLIP_VERTICAL);
+*/
+void sprite_flip(sprite_t* sprite, int flip_mode) 
+{
+    if(flip_mode >= 0 && flip_mode < 3)
+        sprite->flip = flip_mode; 
 }
