@@ -12,6 +12,11 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     sprite_set_texture(renderer, &sprite, "Assets/Heroes/scorpion_sheet.png", &texture_rect);
     hero->sprite = sprite;
     
+    collider_t collider;
+    collider.rect = sprite_rect;
+    collider.on_collision_ptr = &on_collision_enter;
+    hero->collider = collider;
+
     vector2_t speed;
     speed.x = 150;
     speed.y = 0;
@@ -89,7 +94,7 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
     else 
     {
         hero->character.speed.x = 0;
-        SDL_Log("Anim %d is playing %d", hero->curr_anim.name, hero->curr_anim.is_playing);
+        //SDL_Log("Anim %d is playing %d", hero->curr_anim.name, hero->curr_anim.is_playing);
         if(hero->curr_anim.is_playing == 0 || hero->curr_anim.name == WALK)
         {
            hero->curr_anim = hero->animations[IDLE];
@@ -101,6 +106,8 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
 void hero_tick(hero_t* hero, double delta_time) 
 {
     character_tick(&hero->character, delta_time);
+    hero->collider.rect = hero->sprite.sprite_rect;
+
     animation_tick(&hero->sprite, &hero->curr_anim);
     if(!hero->curr_anim.is_playing) 
     {
@@ -112,4 +119,13 @@ void hero_tick(hero_t* hero, double delta_time)
 void hero_draw(SDL_Renderer* renderer, hero_t* hero)
 {
     sprite_draw(renderer, &hero->sprite);
+    //debug collider
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 100);
+    SDL_RenderFillRect(renderer, &hero->collider.rect);
+}
+
+void on_collision_enter()
+{
+    SDL_Log("Collision");
 }

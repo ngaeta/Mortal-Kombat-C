@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED  
 
 #include "core/header/hero.h"
+#include "core/header/collision_mng.h"
 
 int main(int argc, char** args)
 {
@@ -12,22 +13,23 @@ int main(int argc, char** args)
     SDL_Window* window = SDL_CreateWindow("Game", 100, 100, 640, 480, SDL_WINDOW_SHOWN);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+    //before hero
+    collision_mng collision_mng;
+    collision_mng_init(&collision_mng);
+
     SDL_Rect sprite_rect;
-    sprite_rect.x = 0;
-    sprite_rect.y = 0;
-    sprite_rect.w = 50;
-    sprite_rect.h = 112;
-
-    hero_t hero;
+    sprite_rect.x = 150;
+    sprite_rect.y = 300;
+    sprite_rect.w = 70;
+    sprite_rect.h = 132;
+    hero_t hero, hero2;
     hero_init(renderer, &hero, sprite_rect);
+    sprite_rect.x *= 3;
+    hero_init(renderer, &hero2, sprite_rect);
 
-    // sprite_t sprite;
-    // sprite_init(&sprite, &sprite_rect);
-    // SDL_Rect texture_rect;
-    // texture_rect.w=68;
-    // texture_rect.h=130;
-    // texture_rect.x = texture_rect.y = 0;
-    // sprite_set_texture(renderer, &sprite, "Assets/Heroes/test.png", &texture_rect);
+    collision_mng_add_collider(&collision_mng, &hero.collider);
+    collision_mng_add_collider(&collision_mng, &hero2.collider);
+    
     Uint64 now = SDL_GetPerformanceCounter();
     Uint64 last = 0;
     double delta_time = 1;
@@ -54,12 +56,15 @@ int main(int argc, char** args)
 
         //all ticks
         hero_tick(&hero, delta_time);
+        hero_tick(&hero2, delta_time);
+        collision_mng_tick(&collision_mng);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         //all draw
         hero_draw(renderer, &hero);
+        hero_draw(renderer, &hero2);
         //sprite_draw(renderer, &sprite);
 
         SDL_RenderPresent(renderer);
