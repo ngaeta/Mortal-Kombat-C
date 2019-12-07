@@ -48,15 +48,17 @@ int main(int argc, char** args)
                 return 0;
             }
 
+            //all inputs
+            hero_input(renderer, &hero, &event);
         }
 
-        hero_input(renderer, &hero, &event);
-        
+        //all ticks
         hero_tick(&hero, delta_time);
 
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
+        //all draw
         hero_draw(renderer, &hero);
         //sprite_draw(renderer, &sprite);
 

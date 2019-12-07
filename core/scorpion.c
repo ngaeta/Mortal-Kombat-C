@@ -13,7 +13,7 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     hero->sprite = sprite;
     
     vector2_t speed;
-    speed.x = 100;
+    speed.x = 150;
     speed.y = 0;
     hero->move_speed = speed;
 
@@ -27,16 +27,16 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     idle_anim.name = IDLE;
 
     animation_t walk_anim;
-    animation_init(&walk_anim, 9, 100, create_rect(0, 112, 54, 112));
+    animation_init(&walk_anim, 9, 80, create_rect(0, 112, 54, 112));
     walk_anim.name = WALK;
 
     animation_t punch_anim;
-    animation_init(&punch_anim, 5, 120, create_rect(0, 224, 63, 112));
+    animation_init(&punch_anim, 5, 110, create_rect(0, 224, 63, 112));
     animation_set_loop(&punch_anim, 0);
     punch_anim.name = PUNCH;
 
     animation_t kick_anim;
-    animation_init(&kick_anim, 7, 150, create_rect(0, 448, 80, 112));
+    animation_init(&kick_anim, 7, 130, create_rect(0, 448, 80, 112));
     animation_set_loop(&kick_anim, 0);
     kick_anim.name = KICK;
 
@@ -53,7 +53,6 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
 {
     if(event->type == SDL_KEYDOWN && (hero->curr_anim.name == IDLE || hero->curr_anim.name == WALK))
     {
-        SDL_Log("E stato premuto un tasto");
         if(event->key.keysym.sym == SDLK_p) 
         {
             hero->character.speed.x = 0;
@@ -90,7 +89,7 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event)
     else 
     {
         hero->character.speed.x = 0;
-        SDL_Log("Nessun tasto premuto al tempo %d", SDL_GetTicks());
+        SDL_Log("Anim %d is playing %d", hero->curr_anim.name, hero->curr_anim.is_playing);
         if(hero->curr_anim.is_playing == 0 || hero->curr_anim.name == WALK)
         {
            hero->curr_anim = hero->animations[IDLE];
@@ -103,6 +102,11 @@ void hero_tick(hero_t* hero, double delta_time)
 {
     character_tick(&hero->character, delta_time);
     animation_tick(&hero->sprite, &hero->curr_anim);
+    if(!hero->curr_anim.is_playing) 
+    {
+        hero->curr_anim = hero->animations[IDLE];
+        animation_play(&hero->curr_anim, &hero->sprite);  
+    }
 }
 
 void hero_draw(SDL_Renderer* renderer, hero_t* hero)
