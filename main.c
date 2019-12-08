@@ -24,8 +24,9 @@ int main(int argc, char** args)
     sprite_rect.h = 132;
     hero_t hero, hero2;
     hero_init(renderer, &hero, sprite_rect);
-    sprite_rect.x *= 3;
+    sprite_rect.x *= 2;  //era *3
     hero_init(renderer, &hero2, sprite_rect);
+    hero_flip_X(&hero2);
 
     collision_mng_add_collider(&collision_mng, &hero.collider);
     collision_mng_add_collider(&collision_mng, &hero2.collider);

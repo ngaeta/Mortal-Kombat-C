@@ -9,6 +9,7 @@ typedef struct animation
     int loop;
     int is_playing;
     int timer;
+    int reversed;
     SDL_Rect texture_rect;
 } animation_t;
 
@@ -16,3 +17,4 @@ void animation_init(animation_t* animation, int frames, int delayPerFrame, SDL_R
 void animation_tick(sprite_t* sprite, animation_t* animation);
 void animation_play(animation_t* animation, sprite_t* sprite);
 void animation_set_loop(animation_t* animation, int bool);
+void animation_set_reversed(animation_t* animation);

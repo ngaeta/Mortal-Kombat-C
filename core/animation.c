@@ -9,6 +9,7 @@ void animation_init(animation_t* animation, int frames, int delayPerFrame, SDL_R
     animation->is_playing=0;
     animation->texture_rect = texture_rect;
     animation->name = -1;
+    animation->reversed= 0;
 }
 
 void animation_tick(sprite_t* sprite, animation_t* animation) 
@@ -16,19 +17,39 @@ void animation_tick(sprite_t* sprite, animation_t* animation)
     uint32_t currentTime = SDL_GetTicks();
     if (currentTime > animation->timer + animation->delay_between_frames) 
     {
-        animation->curr_frame++;
-        if(animation->curr_frame >= animation->tot_frames) 
+        if(!animation->reversed)
         {
-            if(animation->loop) 
+            animation->curr_frame++;
+            if(animation->curr_frame >= animation->tot_frames) 
             {
-                animation->curr_frame = 0;
+                if(animation->loop) 
+                {
+                    animation->curr_frame = 0;
+                }
+                else
+                {
+                    animation->is_playing = 0;
+                    return;
+                }          
             }
-            else
-            {
-                animation->is_playing = 0;
-                return;
-            }          
         }
+        else 
+        {
+            animation->curr_frame--;
+            if(animation->curr_frame < 0) 
+            {
+                if(animation->loop) 
+                {
+                    animation->curr_frame = animation->tot_frames - 1;
+                }
+                else
+                {
+                    animation->is_playing = 0;
+                    return;
+                }          
+            }
+        }
+
         animation->timer = currentTime;
         sprite->texture_rect.x = animation->curr_frame * sprite->texture_rect.w;
     }
@@ -46,3 +67,10 @@ void animation_set_loop(animation_t* animation, int bool)
 {
     animation->loop = bool;
 }
+
+void animation_set_reversed(animation_t* animation)
+{
+    animation->reversed=1;
+    animation->curr_frame = animation->tot_frames - 1;
+}
+
