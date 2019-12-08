@@ -21,8 +21,8 @@ int main(int argc, char** args)
     SDL_Rect sprite_rect;
     sprite_rect.x = 150;
     sprite_rect.y = 300;
-    sprite_rect.w = 70;
-    sprite_rect.h = 132;
+    sprite_rect.w = 100;
+    sprite_rect.h = 150;
 
     hero_t hero, hero2;
     hero_init(renderer, &hero, sprite_rect, "Assets/Heroes/sub_zero_sheet.png", Player_One);
@@ -30,6 +30,7 @@ int main(int argc, char** args)
     hero.keycode_input[INPUT_WALK_LEFT] = SDL_SCANCODE_A;
     hero.keycode_input[INPUT_PUNCH] = SDL_SCANCODE_F;
     hero.keycode_input[INPUT_KICK] = SDL_SCANCODE_G;
+    hero.keycode_input[INPUT_FATALITY] = SDL_SCANCODE_E;
 
     sprite_rect.x *= 2;  //era *3
     hero_init(renderer, &hero2, sprite_rect, "Assets/Heroes/scorpion_sheet.png", Player_Two);
@@ -37,7 +38,11 @@ int main(int argc, char** args)
     hero2.keycode_input[INPUT_WALK_LEFT] = SDL_SCANCODE_LEFT;
     hero2.keycode_input[INPUT_PUNCH] = SDL_SCANCODE_L;
     hero2.keycode_input[INPUT_KICK] = SDL_SCANCODE_K;
+    hero2.keycode_input[INPUT_FATALITY] = SDL_SCANCODE_P;
     hero_flip_X(&hero2);
+
+    hero.rival = &hero2;
+    hero2.rival = &hero;
 
     collision_mng_add_collider(&collision_mng, &hero.collider);
     collision_mng_add_collider(&collision_mng, &hero2.collider);
@@ -81,7 +86,6 @@ int main(int argc, char** args)
         //all draw
         hero_draw(renderer, &hero);
         hero_draw(renderer, &hero2);
-        //sprite_draw(renderer, &sprite);
 
         SDL_RenderPresent(renderer);
     }
