@@ -2,6 +2,7 @@
 
 #include "core/header/hero.h"
 #include "core/header/collision_mng.h"
+#include "core/header/input.h"
 
 int main(int argc, char** args)
 {
@@ -22,10 +23,20 @@ int main(int argc, char** args)
     sprite_rect.y = 300;
     sprite_rect.w = 70;
     sprite_rect.h = 132;
+
     hero_t hero, hero2;
-    hero_init(renderer, &hero, sprite_rect);
+    hero_init(renderer, &hero, sprite_rect, "Assets/Heroes/sub_zero_sheet.png", Player_One);
+    hero.keycode_input[INPUT_WALK_RIGHT] = SDL_SCANCODE_D;
+    hero.keycode_input[INPUT_WALK_LEFT] = SDL_SCANCODE_A;
+    hero.keycode_input[INPUT_PUNCH] = SDL_SCANCODE_F;
+    hero.keycode_input[INPUT_KICK] = SDL_SCANCODE_G;
+
     sprite_rect.x *= 2;  //era *3
-    hero_init(renderer, &hero2, sprite_rect);
+    hero_init(renderer, &hero2, sprite_rect, "Assets/Heroes/scorpion_sheet.png", Player_Two);
+    hero2.keycode_input[INPUT_WALK_RIGHT] = SDL_SCANCODE_RIGHT;
+    hero2.keycode_input[INPUT_WALK_LEFT] = SDL_SCANCODE_LEFT;
+    hero2.keycode_input[INPUT_PUNCH] = SDL_SCANCODE_L;
+    hero2.keycode_input[INPUT_KICK] = SDL_SCANCODE_K;
     hero_flip_X(&hero2);
 
     collision_mng_add_collider(&collision_mng, &hero.collider);
@@ -51,8 +62,12 @@ int main(int argc, char** args)
                 return 0;
             }
 
+            int num_keys_pressed;
+            const Uint8* keys_pressed = get_button_pressed(&num_keys_pressed);
+
             //all inputs
-            hero_input(renderer, &hero, &event);
+            hero_input(renderer, &hero, num_keys_pressed, keys_pressed);
+            hero_input(renderer, &hero2, num_keys_pressed, keys_pressed);
         }
 
         //all ticks

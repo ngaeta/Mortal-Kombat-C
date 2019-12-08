@@ -1,17 +1,18 @@
 #include "header/utility.h"
 #include "header/hero.h"
 
-void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
+void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, const char* texture_name, enum Player player)
 {
     hero->health = 100;
     hero->punch_damage = 10;
     hero->kick_damage = 20;
+    hero->player = player;
 
     sprite_t sprite;
     sprite_init(&sprite, sprite_rect);
 
     SDL_Rect texture_rect = create_rect(0, 0, 54, 112);
-    sprite_set_texture(renderer, &sprite, "Assets/Heroes/scorpion_sheet.png", &texture_rect);
+    sprite_set_texture(renderer, &sprite, texture_name, &texture_rect);
     hero->sprite = sprite;
     
     collider_t collider;
@@ -62,46 +63,50 @@ void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect)
     animation_play(&hero->curr_anim, &hero->sprite);
 }
 
-void hero_input(SDL_Renderer* renderer, hero_t* hero, SDL_Event* event) 
+void hero_input(SDL_Renderer* renderer, hero_t* hero, int num_keys_pressed, const Uint8* keys) 
 {
-    if(event->type == SDL_KEYDOWN && (hero->curr_anim.name == IDLE || hero->curr_anim.name == WALK))
+    if(num_keys_pressed > 0 && (hero->curr_anim.name == IDLE || hero->curr_anim.name == WALK))
     {
-        if(event->key.keysym.sym == SDLK_p) 
+        if(keys[hero->keycode_input[INPUT_PUNCH]]) 
         {
             hero->character.speed.x = 0;
             hero->curr_anim = hero->animations[PUNCH];
             animation_play(&hero->curr_anim, &hero->sprite);
         }
-        else if(event->key.keysym.sym == SDLK_k)
+        else if(keys[hero->keycode_input[INPUT_KICK]])
         {
             hero->character.speed.x = 0;
             hero->curr_anim = hero->animations[KICK];
             animation_play(&hero->curr_anim, &hero->sprite);                                                                             
         }
-        else if(event->key.keysym.sym == SDLK_LEFT)
+        else if(keys[hero->keycode_input[INPUT_WALK_LEFT]])
         {
             hero->character.speed.x = -(hero->move_speed.x);
             if(hero->curr_anim.name != WALK)
             {
                 hero->curr_anim = hero->animations[WALK];
-                animation_set_reversed(&hero->curr_anim);
+                if(hero->player == Player_One)
+                    animation_set_reversed(&hero->curr_anim);
                 animation_play(&hero->curr_anim, &hero->sprite);   
             }
         }
-        else if(event->key.keysym.sym == SDLK_RIGHT) 
+        else if(keys[hero->keycode_input[INPUT_WALK_RIGHT]]) 
         {
             hero->character.speed.x = hero->move_speed.x;
             if(hero->curr_anim.name != WALK)
             {
                 hero->curr_anim = hero->animations[WALK];
-                animation_play(&hero->curr_anim, &hero->sprite);   
+                if(hero->player == Player_Two)
+                    animation_set_reversed(&hero->curr_anim);
+                animation_play(&hero->curr_anim, &hero->sprite);  
             }
-        }//debug else
-        else if(event->key.keysym.sym == SDLK_d) 
-        {
-            hero->curr_anim = hero->animations[GET_PUNCH];
-            animation_play(&hero->curr_anim, &hero->sprite);   
         }
+        //debug if
+        // if(event->key.keysym.sym == SDLK_ctrl) 
+        // {
+        //     hero->curr_anim = hero->animations[GET_PUNCH];
+        //     animation_play(&hero->curr_anim, &hero->sprite);   
+        // }
     }
     else 
     {
@@ -131,9 +136,9 @@ void hero_draw(SDL_Renderer* renderer, hero_t* hero)
 {
     sprite_draw(renderer, &hero->sprite);
     //debug collider
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 100);
-    SDL_RenderFillRect(renderer, &hero->collider.rect);
+    //SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    //SDL_SetRenderDrawColor(renderer, 0, 255, 0, 100);
+    //SDL_RenderFillRect(renderer, &hero->collider.rect);
 }
 
 void hero_flip_X(hero_t* hero)
@@ -172,7 +177,7 @@ void hero_get_punch(hero_t* hero, int damage)
     }
 }
 
-void hero_die(hero_t*hero)
+void hero_die(hero_t* hero)
 {
     SDL_Log("Die");
 }
