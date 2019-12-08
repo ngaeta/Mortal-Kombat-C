@@ -155,7 +155,7 @@ void hero_tick(hero_t* hero, double delta_time)
     collider_tick(&hero->collider, hero->sprite.sprite_rect);
 
     animation_tick(&hero->sprite, &hero->curr_anim);
-    if(!hero->curr_anim.is_playing) 
+    if(hero->health > 0 && !hero->curr_anim.is_playing) 
     {
         hero->curr_anim = hero->animations[IDLE];
         animation_play(&hero->curr_anim, &hero->sprite);  
