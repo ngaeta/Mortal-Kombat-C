@@ -53,22 +53,20 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, int num_keys_pressed, cons
             else if(keys[hero->keycode_input[INPUT_WALK_LEFT]])
             {
                 hero->character.speed.x = -(hero->move_speed.x);
+                animation_set_reversed(&hero->curr_anim, hero->player == Player_One ? 1 : 0);
                 if(hero->curr_anim.name != WALK)
                 {
                     hero->curr_anim = hero->animations[WALK];
-                    if(hero->player == Player_One)
-                        animation_set_reversed(&hero->curr_anim, 1);
                     animation_play(&hero->curr_anim, &hero->sprite);   
                 }
             }
             else if(keys[hero->keycode_input[INPUT_WALK_RIGHT]]) 
             {
-                hero->character.speed.x = hero->move_speed.x;
+                hero->character.speed.x = hero->move_speed.x;        
+                animation_set_reversed(&hero->curr_anim, hero->player == Player_Two ? 1 : 0);
                 if(hero->curr_anim.name != WALK)
                 {
                     hero->curr_anim = hero->animations[WALK];
-                    if(hero->player == Player_Two)
-                        animation_set_reversed(&hero->curr_anim, 1);
                     animation_play(&hero->curr_anim, &hero->sprite);  
                 }
             }

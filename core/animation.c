@@ -73,6 +73,6 @@ void animation_set_loop(animation_t* animation, int bool)
 void animation_set_reversed(animation_t* animation, int reversed)
 {
     animation->reversed = reversed;
-    animation->curr_frame = animation->tot_frames - 1;
+    //animation->curr_frame = animation->tot_frames - 1;
 }
 

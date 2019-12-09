@@ -21,7 +21,7 @@ int main(int argc, char** args)
 
     SDL_Rect sprite_rect;
     sprite_rect.x = 120;
-    sprite_rect.y = 300;
+    sprite_rect.y = 320;
     sprite_rect.w = 100;
     sprite_rect.h = 150;
 
@@ -43,6 +43,11 @@ int main(int argc, char** args)
     
     scorpion.rival = &sub_zero;
     sub_zero.rival = &scorpion;
+
+    sprite_t background;
+    sprite_init(&background, create_rect(0, 0, 640, 480));
+    SDL_Rect r= create_rect(80, 260, 710, 250);
+    sprite_set_texture(renderer, &background, "Assets/background.png", &r);
 
     collision_mng_add_collider(&collision_mng, &scorpion.collider);
     collision_mng_add_collider(&collision_mng, &sub_zero.collider);
@@ -84,8 +89,9 @@ int main(int argc, char** args)
         SDL_RenderClear(renderer);
 
         //all draw
-        scorpion_hero_draw(renderer, &scorpion);
+        sprite_draw(renderer, &background);
         sub_zero_hero_draw(renderer, &sub_zero);
+        scorpion_hero_draw(renderer, &scorpion);
 
         SDL_RenderPresent(renderer);
     }
