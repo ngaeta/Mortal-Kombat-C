@@ -1,3 +1,6 @@
+#ifndef HERO_H
+#define HERO_H
+
 #include "animation.h"
 #include "character.h"
 #include "collider.h"
@@ -10,7 +13,8 @@
 #define GET_KICK 5
 #define FATALITY 6
 #define GET_FATALITY 7
-#define DIE 8
+#define WIN 8
+#define DIE 9
 
 #define INPUT_WALK_RIGHT  0
 #define INPUT_WALK_LEFT  1
@@ -34,6 +38,7 @@ typedef struct hero
     animation_t animations[DIE + 1];
     SDL_Keycode keycode_input[INPUT_FATALITY + 1]; 
     struct hero* rival;
+    void (*do_fatality_ptr)();
 } hero_t;
 
 void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, const char* texture_name, enum Player player);
@@ -46,5 +51,7 @@ void hero_get_kick(hero_t* hero, int damage);
 void hero_get_fatality(hero_t* hero);
 void hero_die(hero_t*hero);
 void on_collision_enter(collider_t* my_collider, collider_t* other_collider);
+
+#endif
 
 

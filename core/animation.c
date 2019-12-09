@@ -59,8 +59,10 @@ void animation_play(animation_t* animation, sprite_t* sprite)
 {
     animation->is_playing=1;
     animation->timer = SDL_GetTicks();
-    animation->curr_frame = 0;
+    animation->curr_frame = !animation->reversed ? 0 : animation->tot_frames - 1;
     sprite->texture_rect = animation->texture_rect;
+    sprite->sprite_rect.w = sprite->texture_rect.w;
+    sprite->sprite_rect.h = sprite->texture_rect.h;
 }
 
 void animation_set_loop(animation_t* animation, int bool)
@@ -68,9 +70,9 @@ void animation_set_loop(animation_t* animation, int bool)
     animation->loop = bool;
 }
 
-void animation_set_reversed(animation_t* animation)
+void animation_set_reversed(animation_t* animation, int reversed)
 {
-    animation->reversed=1;
+    animation->reversed = reversed;
     animation->curr_frame = animation->tot_frames - 1;
 }
 
