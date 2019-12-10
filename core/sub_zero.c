@@ -34,7 +34,7 @@ void sub_zero_hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_re
     die_anim.name = DIE;
 
     animation_t fatality_anim;
-    animation_init(&fatality_anim, 9, 115, create_rect(0, 672, 78, 112));
+    animation_init(&fatality_anim, 9, 120, create_rect(0, 672, 78, 112));
     animation_set_loop(&fatality_anim, 0);
     fatality_anim.name = FATALITY;
 
@@ -44,7 +44,7 @@ void sub_zero_hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_re
     get_fatality_anim.name = GET_FATALITY;
 
     animation_t win_anim;
-    animation_init(&win_anim, 1, 160, create_rect(0, 914, 54, 130));
+    animation_init(&win_anim, 1, 160, create_rect(0, 926, 54, 112));
     animation_set_loop(&win_anim, 0);
     win_anim.name = WIN;
 

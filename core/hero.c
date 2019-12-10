@@ -94,7 +94,8 @@ void hero_input(SDL_Renderer* renderer, hero_t* hero, int num_keys_pressed, cons
 
 void hero_tick(hero_t* hero, double delta_time) 
 {
-    character_tick(&hero->character, delta_time);
+    if((hero->character.speed.x < 0 && hero->sprite.x > 20) || (hero->character.speed.x > 0 && hero->sprite.x < 560))
+        character_tick(&hero->character, delta_time);
     collider_tick(&hero->collider, hero->sprite.sprite_rect);
     animation_tick(&hero->sprite, &hero->curr_anim);
     

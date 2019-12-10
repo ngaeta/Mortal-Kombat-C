@@ -7,6 +7,7 @@ typedef struct sprite
 {
     int x;
     int y;
+    int scale_multiplier;
     SDL_Texture* texture;
     SDL_Rect sprite_rect;
     SDL_Rect texture_rect;
