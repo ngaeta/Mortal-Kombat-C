@@ -13,6 +13,7 @@ void sprite_init(sprite_t* sprite, SDL_Rect sprite_rect)
     sprite->y = sprite_rect.y;
     sprite->sprite_rect = sprite_rect; 
     sprite->scale_multiplier = 1;   
+    sprite->is_active=1;
     sprite->flip = SDL_FLIP_NONE;
 }
 
@@ -40,10 +41,13 @@ int sprite_set_texture(SDL_Renderer* renderer, sprite_t* sprite, const char* fil
 
 void sprite_draw(SDL_Renderer* renderer, sprite_t* sprite) 
 {
-    sprite->sprite_rect.x = sprite->x;
-    sprite->sprite_rect.y = sprite->y;                                                                      
-    SDL_Rect new_sprite_rect = create_rect(sprite->x, sprite->y, sprite->sprite_rect.w * sprite->scale_multiplier, sprite->sprite_rect.h * sprite->scale_multiplier);
-    SDL_RenderCopyEx(renderer, sprite->texture, &sprite->texture_rect, &new_sprite_rect, 0, NULL, sprite->flip);
+    if(sprite->is_active)
+    {
+        sprite->sprite_rect.x = sprite->x;
+        sprite->sprite_rect.y = sprite->y;                                                                      
+        SDL_Rect new_sprite_rect = create_rect(sprite->x, sprite->y, sprite->sprite_rect.w * sprite->scale_multiplier, sprite->sprite_rect.h * sprite->scale_multiplier);
+        SDL_RenderCopyEx(renderer, sprite->texture, &sprite->texture_rect, &new_sprite_rect, 0, NULL, sprite->flip);
+    }
 }
 
 /*

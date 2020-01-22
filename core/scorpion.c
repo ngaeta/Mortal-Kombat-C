@@ -3,9 +3,14 @@
 
 void scorpion_hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, enum Player player)
 {
-    hero_init(renderer, hero, sprite_rect, "Assets/Heroes/scorpion_sheet.png", player);
+    hero_init(renderer, hero, sprite_rect, "Assets/Heroes/scorpion_sheet.png", "Assets/UI/scorpion_label.png", player);
+    
     hero->collider.on_collision_ptr = scorpion_on_collision_enter;
+    //override methods
     hero->do_fatality_ptr = scorpion_fatality;
+    hero->child_tick_ptr = scorpion_hero_tick;
+    hero->child_input_ptr = scorpion_hero_input;
+    hero->child_draw_ptr = scorpion_hero_draw;
 
     animation_t idle_anim;
     animation_init(&idle_anim, 6, 150, create_rect(0, 0, 54, 112));

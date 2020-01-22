@@ -2,9 +2,13 @@
 
 void sub_zero_hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, enum Player player)
 {
-    hero_init(renderer, hero, sprite_rect, "Assets/Heroes/sub_zero_sheet.png", player);
+    hero_init(renderer, hero, sprite_rect, "Assets/Heroes/sub_zero_sheet.png", "Assets/UI/sub_zero_label.png", player);
+    //override methods
     hero->collider.on_collision_ptr = sub_zero_on_collision_enter;
     hero->do_fatality_ptr = sub_zero_fatality;
+    hero->child_tick_ptr = sub_zero_hero_tick;
+    hero->child_input_ptr = sub_zero_hero_input;
+    hero->child_draw_ptr = sub_zero_hero_draw;
 
     animation_t idle_anim;
     animation_init(&idle_anim, 18, 100, create_rect(0, 0, 54, 112));

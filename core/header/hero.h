@@ -4,6 +4,7 @@
 #include "animation.h"
 #include "character.h"
 #include "collider.h"
+#include "health_bar.h"
 
 #define IDLE  0
 #define WALK  1
@@ -31,17 +32,22 @@ typedef struct hero
     int kick_damage;
     enum Player player;
     sprite_t sprite;
+    sprite_t hero_name;
     vector2_t move_speed;
     character_t character;
+    health_bar_t health_bar;
     collider_t collider;
     animation_t curr_anim;
     animation_t animations[DIE + 1];
-    SDL_Keycode keycode_input[INPUT_FATALITY + 1]; 
     struct hero* rival;
     void (*do_fatality_ptr)();
+    void (*child_input_ptr)();
+    void (*child_tick_ptr)();
+    void (*child_draw_ptr)();
+    SDL_Keycode keycode_input[INPUT_FATALITY + 1]; 
 } hero_t;
 
-void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, const char* texture_name, enum Player player);
+void hero_init(SDL_Renderer* renderer, hero_t* hero, SDL_Rect sprite_rect, const char* texture_name, const char* character_name_file, enum Player player);
 void hero_tick(hero_t* hero, double delta_time);
 void hero_input(SDL_Renderer* renderer, hero_t* hero, int num_keys_pressed, const Uint8* keys);
 void hero_draw(SDL_Renderer* renderer, hero_t* hero);
